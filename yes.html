@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yay!</title>
+  <style>
+    body{
+      margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top, #fff0f6, #fff);
+    }
+    .card{
+      width:min(700px, 92vw);
+      background:white; padding:28px; border-radius:20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.12);
+      text-align:center;
+    }
+    h1{ margin:0 0 10px; font-size: 34px; }
+    p{ margin:0 0 16px; color:#444; font-size:18px; line-height:1.4; }
+    img{
+      width:min(420px, 92%);
+      border-radius:18px;
+      margin: 14px 0 10px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+      object-fit:cover;
+    }
+    .small{ font-size:14px; color:#777; margin-top: 6px; }
+    .cta{
+      display:inline-block; margin-top: 10px;
+      background:#ff3b7a; color:white; text-decoration:none;
+      padding:12px 18px; border-radius:999px;
+      box-shadow: 0 6px 14px rgba(0,0,0,.12);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>YAAAY 💖</h1>
+    <p>Officially my Valentine 🥰</p>
+    <p>Now I owe you hugs, snacks, and a date you’ll remember ✨</p>
+
+    <!-- Put your photo here: create /assets/us.jpg -->
+    <img src="us.jpeg" alt="Us">
+
+    <p class="small">P.S. You just made my whole week 😄</p>
+
+    <!-- Optional: add your plan -->
+    <a class="cta" href="https://maps.google.com" target="_blank" rel="noopener">Next: Our date 😌</a>
+  </div>
+
+  <script>
+    // Fun: if someone used the "serious no" link, you can show a gentle message
+    if (window.location.hash === "#no") {
+      document.querySelector("h1").textContent = "I understand 💗";
+      document.querySelectorAll("p")[0].textContent = "No pressure — I just wanted to tell you I really like you.";
+    }
+  </script>
+</body>
+</html>

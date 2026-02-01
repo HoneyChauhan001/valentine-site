@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Valentine?</title>
+  <style>
+    body{
+      margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top, #ffe0ea, #fff);
+    }
+    .card{
+      width:min(520px, 92vw);
+      background:white; padding:28px; border-radius:20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.12);
+      text-align:center;
+    }
+    h1{ margin: 0 0 8px; font-size: 32px; }
+    p{ margin: 0 0 18px; color:#444; }
+    .btns{
+      position: relative;
+      height: 120px; /* space for the dodging button */
+      display:flex; align-items:center; justify-content:center; gap:14px;
+    }
+    button{
+      border:0; padding:12px 18px; border-radius:999px; font-size:18px;
+      cursor:pointer;
+      box-shadow: 0 6px 14px rgba(0,0,0,.12);
+      transition: transform .12s ease;
+      user-select:none;
+      touch-action: manipulation;
+    }
+    #yesBtn{ background:#ff3b7a; color:white; }
+    #noBtn{
+      background:#eee; color:#333;
+      position:absolute; /* needed to move it */
+      left: 52%;
+      top: 56%;
+      transform: translate(-50%, -50%);
+    }
+    .tiny{
+      margin-top: 10px;
+      font-size: 12px;
+      color:#777;
+    }
+    .tiny a{ color:#777; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Will you be my Valentine? 💖</h1>
+    <p>I have a small surprise for you 😄</p>
+
+    <div class="btns" id="arena">
+      <button id="yesBtn">Yes 💘</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
+
+    <!-- Optional “serious no” escape hatch (recommended to keep it sweet) -->
+    <div class="tiny">
+      If you really mean it, you can click <a id="seriousNo" href="yes.html#no">here</a>.
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const arena = document.getElementById('arena');
+    const yesBtn = document.getElementById('yesBtn');
+
+    yesBtn.addEventListener('click', () => {
+      window.location.href = 'yes.html';
+    });
+
+    function moveNoButton() {
+      const arenaRect = arena.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      // Pick a random position within the arena, keeping the whole button visible
+      const padding = 10;
+      const maxX = arenaRect.width - btnRect.width - padding;
+      const maxY = arenaRect.height - btnRect.height - padding;
+
+      const x = Math.max(padding, Math.random() * maxX);
+      const y = Math.max(padding, Math.random() * maxY);
+
+      noBtn.style.left = x + 'px';
+      noBtn.style.top  = y + 'px';
+      noBtn.style.transform = 'translate(0,0)';
+    }
+
+    // Desktop hover
+    noBtn.addEventListener('mouseenter', moveNoButton);
+    // Mobile touch
+    noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveNoButton(); }, {passive:false});
+    // Pointer devices
+    noBtn.addEventListener('pointerenter', moveNoButton);
+  </script>
+</body>
+</html>
