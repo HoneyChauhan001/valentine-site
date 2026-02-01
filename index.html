@@ -91,9 +91,10 @@ function sendToGoogleForm(value) {
   }
 }
 
-yesBtn.addEventListener("click", () => {
-  sendToGoogleForm("Yes");
-  window.location.href = "yes.html";
+yesBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    sendToGoogleForm("yes");
+    window.location.href = "yes.html";
 });
 
 // OPTIONAL: if you allow a real "No"
