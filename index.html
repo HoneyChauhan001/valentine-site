@@ -58,6 +58,7 @@
     </div>
 
     <!-- Optional “serious no” escape hatch (recommended to keep it sweet) -->
+
     <div class="tiny">
       If you really mean it, you can click <a id="seriousNo" href="yes.html#no">here</a>.
     </div>
@@ -67,10 +68,65 @@
     const noBtn = document.getElementById('noBtn');
     const arena = document.getElementById('arena');
     const yesBtn = document.getElementById('yesBtn');
+    const FORM_RESPONSE_URL =
+        "https://docs.google.com/forms/d/e/1FAIpQLSe6KWHyKmF-OZHlmRH6_cdSNGB_logMythcMy4tZaiUg7Hg7g/formResponse";
+    const ENTRY_KEY = "entry.1874188941";
 
-    yesBtn.addEventListener('click', () => {
-      window.location.href = 'yes.html';
-    });
+function sendToGoogleForm(value) {
+  const data = new URLSearchParams();
+  data.append(ENTRY_KEY, value);
+
+  // Try sendBeacon first (best for "log then redirect")
+  const blob = new Blob([data.toString()], { type: "application/x-www-form-urlencoded" });
+  const ok = navigator.sendBeacon(FORM_RESPONSE_URL, blob);
+
+  // Fallback if sendBeacon fails
+  if (!ok) {
+    fetch(FORM_RESPONSE_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: data.toString()
+    }).catch(() => {});
+  }
+}
+
+yesBtn.addEventListener("click", () => {
+  sendToGoogleForm("Yes");
+  window.location.href = "yes.html";
+});
+
+// OPTIONAL: if you allow a real "No"
+const seriousNo = document.getElementById("seriousNo");
+if (seriousNo) {
+  seriousNo.addEventListener("click", (e) => {
+    e.preventDefault();
+    sendToGoogleForm("No");
+    window.location.href = "yes.html#no";
+  });
+}
+
+    // const YES_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSe6KWHyKmF-OZHlmRH6_cdSNGB_logMythcMy4tZaiUg7Hg7g/viewform?usp=pp_url&entry.1874188941=yes";
+
+    // yesBtn.addEventListener('click', () => {
+    //     // 1) record response to your Google Form
+    //     window.open(YES_LINK, "_blank");
+
+    //     // 2) show the celebration page
+    //     window.location.href = "yes.html";
+    // });
+    // // yesBtn.addEventListener('click', () => {
+    // //   window.location.href = 'yes.html';
+    // // });
+
+    // const NO_LINK = "PASTE_YOUR_PREFILLED_NO_LINK_HERE";
+
+    // // Example: if you have a “serious no” link:
+    // document.getElementById("seriousNo").addEventListener("click", (e) => {
+    // e.preventDefault();
+    // window.open(NO_LINK, "_blank");
+    // window.location.href = "yes.html#no";
+    // });
 
     function moveNoButton() {
       const arenaRect = arena.getBoundingClientRect();
